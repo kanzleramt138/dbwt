@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+- Praktikum DBWT. Autoren:
+- Robert, Hormann, 3668591
+- Josuel, Arz, 3307282
+-->
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Newsletteranmeldung</title>
+  </head>
+  <body>
+    <h2>Newsletter Anmeldung</h2>
+
+    <form action="beispiele/formdata.html" method="POST">
+      <label for="anrede">Anrede:</label>
+      <select id="anrede" name="anrede" required>
+        <option value="">Bitte auswählen...</option>
+        <!-- Placeholder option -->
+        <option value="frau">Frau</option>
+        <option value="herr">Herr</option>
+        <option value="divers">Divers</option>
+      </select>
+      <br />
+
+      <label for="vorname">Vorname:</label>
+      <input type="text" id="vorname" name="vorname" required />
+      <br />
+
+      <label for="nachname">Nachname:</label>
+      <input type="text" id="nachname" name="nachname" required />
+      <br />
+
+      <label for="email">E-Mail:</label>
+      <input type="email" id="email" name="email" required />
+      <br />
+
+      <label for="benachrichtigungsintervall"
+        >Benachrichtigungsintervall:</label
+      >
+      <select
+        id="benachrichtigungsintervall"
+        name="benachrichtigungsintervall"
+        required
+      >
+        <option value="">Bitte auswählen...</option>
+        <!-- Placeholder option -->
+        <option value="täglich">täglich</option>
+        <option value="wöchentlich">wöchentlich</option>
+        <option value="monatlich">monatlich</option>
+      </select>
+      <br />
+
+      <input type="checkbox" id="datenschutz" name="datenschutz" required />
+      <label for="datenschutz">Datenschutzhinweise gelesen</label>
+      <br />
+
+      <input type="submit" value="Anmelden" />
+    </form>
+  </body>
+</html>

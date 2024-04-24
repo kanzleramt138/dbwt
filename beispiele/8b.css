@@ -1,0 +1,25 @@
+.container {
+    display: grid;
+    gap: 10px;
+    margin: 20px;
+  }
+  
+  .untereinander {
+    grid-template-columns: 1fr;
+  }
+  
+  .nebeneinander {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+  
+  .zentriert {
+    grid-template-columns: 1fr;
+    place-items: center;
+    height: 100vh;
+  }
+  
+  .box {
+    background: lightgray;
+    padding: 20px;
+    text-align: center;
+  }

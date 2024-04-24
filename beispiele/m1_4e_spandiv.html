@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+- Praktikum DBWT. Autoren:
+- Robert, Hormann, 3668591
+- Josuel, Arz, 3307282
+-->
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>m1_4e_spandiv</title>
+    <style>
+      .div-block {
+        background-color: lightblue;
+        margin: 10px 0;
+        padding: 10px;
+      }
+
+      .span-inline {
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      Der Hauptunterschied zwischen &lt;span&gt; und &lt;div&gt; in HTML liegt
+      in ihrem Verhalten bezüglich des Seitenlayouts. &lt;div&gt; steht für
+      "division" und ist ein Blockelement, das in der Regel für größere
+      Strukturblöcke innerhalb eines HTML-Dokuments verwendet wird. Es nimmt
+      standardmäßig die volle verfügbare Breite ein und beginnt in einer neuen
+      Zeile. &lt;span&gt; hingegen ist ein Inline-Element, das für kleine
+      Textausschnitte oder andere Inhalte innerhalb eines Blocks (zum Beispiel
+      innerhalb eines &lt;div&gt; oder eines Paragraphen &lt;p&gt;) verwendet
+      wird und den Fluss des Inhalts nicht unterbricht.
+    </p>
+    <h2>Verwendung von &lt;div&gt;</h2>
+    <div class="div-block">
+      Ich bin ein &lt;div&gt;-Element und nehme den gesamten Platz in der Breite
+      ein.
+    </div>
+    <div class="div-block">
+      Ein weiteres &lt;div&gt;-Element, das in einer neuen Zeile beginnt.
+    </div>
+
+    <h2>Verwendung von &lt;span&gt;</h2>
+    <p>
+      Text im Paragraphen,
+      <span class="span-inline">und ich bin ein &lt;span&gt;-Element</span>, das
+      sich inline mit dem Text befindet.
+    </p>
+    <p>
+      Ein weiterer Paragraph
+      <span class="span-inline">mit einem &lt;span&gt;</span>, das nicht den
+      Zeilenfluss unterbricht.
+    </p>
+  </body>
+</html>
