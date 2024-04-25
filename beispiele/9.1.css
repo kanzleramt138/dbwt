@@ -1,9 +1,24 @@
+body {
+    width: 50vw;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 5%;
+}
+
+#table-description::first-letter {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
 table {
     width: 100%;
-    border-collapse: collapse;
-    margin: 25px 0;
+    margin: 25px 25px;
     font-size: 0.9em;
     border: 2px solid rgba(255, 216, 153, 0.794);
+}
+
+#etabelle th:hover {
+    background-color: green;
+    color: white;
 }
 
 thead th {
@@ -12,7 +27,7 @@ thead th {
 }
 
 #extravagant-row {
-    background-color: rgba(255, 216, 153, 0.359); 
+    background-color: rgba(255, 216, 153, 0.359);
 }
 
 #eins {
@@ -25,39 +40,23 @@ thead th {
 
 .center {
     text-align: center;
-    border-bottom: 2px solid rgba(255, 216, 153, 0.794);}
-
-    footer ul {
-        list-style-type: none;
-        text-align: right; 
-        padding: 0; 
-    }
-    
-    footer ul li {
-        display: inline-block; 
-        padding: 10px; 
-        border-right: 1px solid rgba(255, 216, 153, 0.794); 
-    }
-    
-    footer ul li:last-child {
-        border-right: none; 
-    }
-
-#etabelle {
-    margin-left: 50px;
-    margin-right: 50px;
+    border-bottom: 2px solid rgba(255, 216, 153, 0.794);
+    width: 110%;
+    padding-bottom: 25px;
 }
 
+footer ul {
+    list-style-type: none;
+    text-align: right;
+    padding: 0;
+}
 
-#etabelle th:hover {
-    background-color: green;
-    color: white;
-    }
+footer ul li {
+    display: inline-block;
+    padding: 10px;
+    border-right: 1px solid rgba(255, 216, 153, 0.794);
+}
 
-
-
-
-    #table-description::first-letter {
-        color: #4CAF50;
-        font-weight: bold;
-    }
+footer ul li:last-child {
+    border-right: none;
+}
