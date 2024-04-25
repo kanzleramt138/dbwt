@@ -1,0 +1,21 @@
+body {
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    width: 1200px;
+}
+
+#navigation {
+    width: 100%;
+}
+
+#navigation ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    width: auto;
+}
+
+#navigation li {
+    padding: 10px;
+}
+
