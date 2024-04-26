@@ -2,20 +2,66 @@ body {
     font-family: Verdana, sans-serif;
     margin: auto;
     width: 1200px;
+    background-color: rgba(237, 246, 249, 1);
+
 }
 
-#navigation {
-    width: 100%;
-}
+
 
 #navigation ul {
     list-style: none;
     display: flex;
+    justify-content: space-evenly;
     padding: 0;
-    width: auto;
+    width: 100%;
 }
 
 #navigation li {
-    padding: 10px;
+    padding: 15px 30px;
+    background-color: rgba(131, 197, 190, 0.6);
+    border-radius: 0.5em;
 }
 
+#navigation a {
+    text-decoration: none;
+    color: rgba(0, 109, 119, 1);
+    font-size: 1.3em;
+}
+
+h1, h2 {
+    color: rgba(0, 109, 119, 1);
+}
+
+section {
+    margin: 5% 0 0 0;
+}
+
+section p {
+    background-color: rgba(131, 197, 191, 0.6);
+    color: rgba(0, 109, 119, 1);
+    padding: 20px;
+    border-radius: 0.3em;
+}
+
+section ul {
+    background-color: rgba(131, 197, 191, 0.6);
+    color: rgba(0, 109, 119, 1);
+    padding: 20px 20px 20px 40px;
+    border-radius: 0.3em;
+}
+
+.box {
+    display: flex;
+}
+
+#speisen {
+    margin: 0 20% 0 0;
+}
+
+#zahlen {
+    margin-top: 0;
+}
+
+footer p {
+    color: rgba(0, 109, 119, 1);
+}
