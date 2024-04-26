@@ -9,6 +9,12 @@ body {
     font-weight: bold;
 }
 
+#table-description a {
+    color: #D1671B;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 table {
     width: 100%;
     margin: 25px 25px;
