@@ -18,3 +18,11 @@ h1 {
 .beilage {
     color:green
 }
+
+.haupt li {
+    font-weight: bold;
+}
+
+.beilage li {
+    font-weight: 300;
+}
