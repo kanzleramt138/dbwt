@@ -4,7 +4,7 @@
 - Josuel, Arz, 3307282
 -->
 <?php
-date_default_timezone_set('Europe/Berlin');
+//date_default_timezone_set('Europe/Berlin');
 $logFile = "acceslog.txt";
 
 $ip = $_SERVER['REMOTE_ADDR'];
