@@ -1,9 +1,13 @@
-<!DOCTYPE html>
 <!--
 - Praktikum DBWT. Autoren:
 - Robert, Hormann, 3668591
 - Josuel, Arz, 3307282
 -->
+<?php
+include 'reload.php';
+?>
+
+<!DOCTYPE html>
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
@@ -41,7 +45,7 @@
         <h2>E-Mensa in Zahlen</h2>
         <ul>
           <li>Anzahl der Gerichte: <span id="gerichte-anzahl">XX</span></li>
-          <li>Anzahl der Besucher: <span id="besucher-anzahl">XX</span></li>
+          <li>Anzahl der Besucher: <span id="besucher-anzahl"><?php echo $visitCounter ?></span></li>
         </ul>
       </section>
     </div>
