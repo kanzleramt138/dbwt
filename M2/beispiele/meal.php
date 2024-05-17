@@ -1,15 +1,14 @@
+<!--
+- Praktikum DBWT. Autoren:
+- Robert, Hormann, 3668591
+- Josuel, Arz, 3307282
+-->
 <?php
 const GET_PARAM_MIN_STARS = 'search_min_stars';
 const GET_PARAM_SEARCH_TEXT = 'search_text';
 const GET_PARAM_SHOW_DESCRIPTION = 'show_description';
 const GET_PARAM_LANGUAGE = 'sprache';
 const GET_PARAM_TOP_FLOP = 'top_flop';
-
-/**
- * - Praktikum DBWT. Autoren:
- * - Robert, Hormann, 3668591
- * - Josuel, Arz, 3307282
- */
 
 /**
  * List of all allergens.

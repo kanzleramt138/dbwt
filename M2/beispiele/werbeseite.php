@@ -1,10 +1,9 @@
+<!--
+- Praktikum DBWT. Autoren:
+- Robert, Hormann, 3668591
+- Josuel, Arz, 3307282
+-->
 <?php
-/**
- * Praktikum DBWT. Autoren:
- * Robert Hormann, 3668591
- * Josuel Arz, 3307282
- */
-
 // Einbinden der Datei mit den Gerichten
 include 'gerichte.php';
 ?>
