@@ -2,9 +2,6 @@
 const GET_PARAM_MIN_STARS = 'search_min_stars';
 const GET_PARAM_SEARCH_TEXT = 'search_text';
 const GET_PARAM_SHOW_DESCRIPTION = 'show_description';
-const GET_PARAM_LANGUAGE = 'sprache';
-const GET_PARAM_TOP_FLOP = 'top_flop';
-
 /**
  * - Praktikum DBWT. Autoren:
  * - Robert, Hormann, 3668591
@@ -46,13 +43,11 @@ $ratings = [
         'stars' => 3 ]
 ];
 
-$searchText = '';
 $showRatings = [];
-
 if (!empty($_GET[GET_PARAM_SEARCH_TEXT])) {
-    $searchText = $_GET[GET_PARAM_SEARCH_TEXT];
+    $searchTerm = $_GET[GET_PARAM_SEARCH_TEXT];
     foreach ($ratings as $rating) {
-        if (stripos($rating['text'], $searchText) !== false) {
+        if (stripos($rating['text'], $searchTerm) !== false) {
             $showRatings[] = $rating;
         }
     }
@@ -61,22 +56,6 @@ if (!empty($_GET[GET_PARAM_SEARCH_TEXT])) {
     foreach ($ratings as $rating) {
         if ($rating['stars'] >= $minStars) {
             $showRatings[] = $rating;
-        }
-    }
-} else if (!empty($_GET[GET_PARAM_TOP_FLOP])) {
-    if ($_GET[GET_PARAM_TOP_FLOP] == 'top') {
-        $maxStars = max(array_column($ratings, 'stars'));
-        foreach ($ratings as $rating) {
-            if ($rating['stars'] == $maxStars) {
-                $showRatings[] = $rating;
-            }
-        }
-    } else if ($_GET[GET_PARAM_TOP_FLOP] == 'flop') {
-        $minStars = min(array_column($ratings, 'stars'));
-        foreach ($ratings as $rating) {
-            if ($rating['stars'] == $minStars) {
-                $showRatings[] = $rating;
-            }
         }
     }
 } else {
@@ -94,112 +73,58 @@ function calcMeanStars(array $ratings): float {
     return $sum / count($ratings);
 }
 
-$texts = [
-    'de' => [
-        'title' => 'Gericht: ' . $meal['name'],
-        'allergens' => 'Allergene:',
-        'ratings' => 'Bewertungen (Insgesamt: ',
-        'filter' => 'Filter:',
-        'search' => 'Suchen',
-        'text' => 'Text',
-        'name' => 'Name',
-        'stars' => 'Sterne',
-        'description' => $meal['description'],
-        'language' => 'Sprache:',
-        'top_flop' => 'Zeige Bewertungen:',
-        'select_option' => 'Bitte wählen',
-        'top' => 'Top-Bewertungen',
-        'flop' => 'Flop-Bewertungen'
-    ],
-    'en' => [
-        'title' => 'Meal: ' . $meal['name'],
-        'allergens' => 'Allergens:',
-        'ratings' => 'Ratings (Overall: ',
-        'filter' => 'Filter:',
-        'search' => 'Search',
-        'text' => 'Text',
-        'name' => 'Name',
-        'stars' => 'Stars',
-        'description' => $meal['description'],
-        'language' => 'Language:',
-        'top_flop' => 'Show reviews:',
-        'select_option' => 'Please select',
-        'top' => 'Top Reviews',
-        'flop' => 'Flop Reviews'
-    ]
-];
-
-$language = $_GET[GET_PARAM_LANGUAGE] ?? 'de';
-$currentTexts = $texts[$language];
 ?>
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8"/>
-    <title><?php echo $currentTexts['title']; ?></title>
-    <style>
-        * {
-            font-family: Arial, serif;
-        }
-        .rating {
-            color: darkgray;
-        }
-    </style>
-</head>
-<body>
-<h1><?php echo $currentTexts['title']; ?></h1>
-<nav>
-    <a href="?sprache=de">Deutsch</a> |
-    <a href="?sprache=en">English</a>
-</nav>
-<?php if (!isset($_GET[GET_PARAM_SHOW_DESCRIPTION]) || $_GET[GET_PARAM_SHOW_DESCRIPTION] != '0'): ?>
-    <p><?php echo $currentTexts['description']; ?></p>
-<?php endif; ?>
-<p>
-    <?php echo sprintf("Preis (intern): %.2f€", $meal['price_intern']); ?><br>
-    <?php echo sprintf("Preis (extern): %.2f€", $meal['price_extern']); ?>
-</p>
-<h2><?php echo $currentTexts['allergens']; ?></h2>
-<ul>
-    <?php
-    foreach ($meal['allergens'] as $allergenId) {
-        echo "<li>{$allergens[$allergenId]}</li>";
-    }
-    ?>
-</ul>
-<h1><?php echo $currentTexts['ratings'] . calcMeanStars($ratings); ?>)</h1>
-<form method="get">
-    <label for="search_text"><?php echo $currentTexts['filter']; ?></label>
-    <input id="search_text" type="text" name="search_text" value="<?php echo htmlspecialchars($searchText); ?>">
-    <input type="hidden" name="sprache" value="<?php echo htmlspecialchars($language); ?>">
-    <input type="submit" value="<?php echo $currentTexts['search']; ?>">
-    <br>
-    <label for="top_flop"><?php echo $currentTexts['top_flop']; ?></label>
-    <select id="top_flop" name="top_flop">
-        <option value=""><?php echo $currentTexts['select_option']; ?></option>
-        <option value="top"><?php echo $currentTexts['top']; ?></option>
-        <option value="flop"><?php echo $currentTexts['flop']; ?></option>
-    </select>
-    <input type="submit" value="<?php echo $currentTexts['filter']; ?>">
-</form>
-<table class="rating">
-    <thead>
-    <tr>
-        <td><?php echo $currentTexts['text']; ?></td>
-        <td><?php echo $currentTexts['name']; ?></td>
-        <td><?php echo $currentTexts['stars']; ?></td>
-    </tr>
-    </thead>
-    <tbody>
-    <?php
-    foreach ($showRatings as $rating) {
-        echo "<tr><td class='rating_text'>{$rating['text']}</td>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Gericht: <?php echo $meal['name']; ?></title>
+        <style>
+            * {
+                font-family: Arial, serif;
+            }
+            .rating {
+                color: darkgray;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Gericht: <?php echo $meal['name']; ?></h1>
+        <?php if (!isset($_GET[GET_PARAM_SHOW_DESCRIPTION]) || $_GET[GET_PARAM_SHOW_DESCRIPTION] != '0'): ?>
+            <p><?php echo $meal['description']; ?></p>
+        <?php endif; ?>
+        <h2>Allergene:</h2>
+        <ul>
+            <?php
+            foreach ($meal['allergens'] as $allergenId) {
+                echo "<li>{$allergens[$allergenId]}</li>";
+            }
+            ?>
+        </ul>
+        <h1>Bewertungen (Insgesamt: <?php echo calcMeanStars($ratings); ?>)</h1>
+        <form method="get">
+            <label for="search_text">Filter:</label>
+            <input id="search_text" type="text" name="search_text">
+            <input type="submit" value="Suchen">
+        </form>
+        <table class="rating">
+            <thead>
+            <tr>
+                <td>Text</td>
+                <td>Name</td>
+                <td>Sterne</td>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+        foreach ($showRatings as $rating) {
+            echo "<tr><td class='rating_text'>{$rating['text']}</td>
                     <td class='rating_author'>{$rating['author']}</td>
                     <td class='rating_stars'>{$rating['stars']}</td>
                   </tr>";
-    }
-    ?>
-    </tbody>
-</table>
-</body>
+        }
+        ?>
+            </tbody>
+        </table>
+    </body>
 </html>
