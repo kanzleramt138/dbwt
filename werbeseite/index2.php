@@ -5,11 +5,11 @@
 -->
 <?php
 include 'besucherzaehler.php';
-include 'speisen.php';
+include 'gerichte_import.php';
 include 'newsletter_zaehlen.php';
 
 $besucher = zaehle_besucher();
-$anzahl_gerichte = count($speisen);
+$anzahl_gerichte = count($gerichte);
 $anzahl_anmeldungen = zaehle_anmeldungen();
 ?>
 <!DOCTYPE html>
@@ -20,9 +20,20 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     <link rel="stylesheet" href="index.css">
     <title>Werbeseite</title>
     <style>
-        .speise img {
-            width: 150px;
+        .gericht {
+            border: 1px solid #ddd;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+        .gericht img {
+            width: 100px;
             height: auto;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
         }
     </style>
 </head>
@@ -46,14 +57,19 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
 <div class="box">
     <section id="speisen">
         <h2>Unsere Speisen</h2>
-        <?php
-        echo '<div class="speise">';
-        foreach ($speisen as $speise) {
-            echo '<p>'.$speise.'</p>'.'<br>';
-            echo '<img src="img/'.$speise.'.jpg">';
-        }
-        echo '</div>';
-        ?>
+        <?php if (isset($gerichte) && is_array($gerichte) && count($gerichte) > 0): ?>
+            <?php foreach ($gerichte as $gericht): ?>
+                <div class="gericht">
+                    <h3><?php echo htmlspecialchars($gericht['name']); ?></h3>
+                    <img src="<?php echo htmlspecialchars($gericht['image']); ?>" alt="<?php echo htmlspecialchars($gericht['name']); ?>">
+                    <p><?php echo htmlspecialchars($gericht['description']); ?></p>
+                    <p>Preis intern: <?php echo number_format($gericht['price_intern'], 2); ?>€</p>
+                    <p>Preis extern: <?php echo number_format($gericht['price_extern'], 2); ?>€</p>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>Keine Gerichte verfügbar.</p>
+        <?php endif; ?>
     </section>
 
     <section id="zahlen">
