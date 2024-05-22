@@ -14,6 +14,7 @@ $besucher = zaehle_besucher();
 $anzahl_gerichte = count($gerichte);
 $anzahl_anmeldungen = zaehle_anmeldungen();
 ?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>

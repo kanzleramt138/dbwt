@@ -18,3 +18,6 @@ if (($handle = fopen('gerichte.csv', 'r')) !== false) {
     fclose($handle);
 }
 ?>
+
+
+
