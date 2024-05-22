@@ -4,6 +4,7 @@
 - Josuel, Arz, 3307282
 -->
 
+
 <?php
 include 'besucherzaehler.php';
 include 'gerichte_import.php';
