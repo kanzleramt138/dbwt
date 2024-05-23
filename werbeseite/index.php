@@ -4,7 +4,6 @@
 - Josuel, Arz, 3307282
 -->
 <?php
-//include 'besucherzaehler.php';
 include 'speisen.php';
 include 'newsletter_zaehlen.php';
 
