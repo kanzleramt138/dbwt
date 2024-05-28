@@ -6,6 +6,9 @@
 <?php
 //date_default_timezone_set('Europe/Berlin');
 $logFile = "acceslog.txt";
+if (!file_exists($logFile)) {
+    file_put_contents($logFile, '');
+}
 
 $ip = $_SERVER['REMOTE_ADDR'];
 $dateTime = date('Y-m-d H:i:s');
