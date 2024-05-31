@@ -7,6 +7,7 @@
 //include 'besucherzaehler.php';
 include 'speisen.php';
 include 'newsletter_zaehlen.php';
+include 'db_connect.php';
 
 function zaehle_besucher() {
     $datei = 'besucherzaehler.txt';
@@ -30,12 +31,14 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
     <title>Werbeseite</title>
+    <!--
     <style>
         .speise img {
             width: 150px;
             height: auto;
         }
     </style>
+    -->
 </head>
 <body>
 <header>
@@ -58,12 +61,52 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     <section id="speisen">
         <h2>Unsere Speisen</h2>
         <?php
+        /*
         echo '<div class="speise">';
         foreach ($speisen as $speise) {
             echo '<p>'.$speise.'</p>'.'<br>';
             echo '<img src="img/'.$speise.'.jpg">';
         }
         echo '</div>';
+        */
+        ?>
+        <?php
+        // Query, um die Gerichte aus der Datenbank zu laden und nach Name aufsteigend zu sortieren
+        //$query = "SELECT name, preisintern, preisextern FROM gericht ORDER BY name ASC LIMIT 5";
+
+        $sql = "SELECT
+            gericht.name, 
+            gericht.preisintern, 
+            gericht.preisextern, 
+            GROUP_CONCAT(allergen.code) AS allergen_codes
+        FROM 
+            gericht
+        LEFT JOIN 
+            gericht_hat_allergen ON gericht.id = gericht_hat_allergen.gericht_id
+        LEFT JOIN 
+            allergen ON gericht_hat_allergen.code = allergen.code
+        GROUP BY 
+            gericht.id
+        ORDER BY 
+            gericht.name 
+            ASC LIMIT 5;
+        ";
+    
+        $result = mysqli_query($link, $sql); // Führe die Abfrage aus
+
+        // Überprüfe, ob die Abfrage erfolgreich war
+        if ($result) {
+            // Iteriere über die Ergebnisse und zeige die Informationen auf der Werbeseite an
+            echo '<div class="speise">';
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo '<h3>'.$row['name'].'</h3>'.'<br>';
+                echo '<p>Preis intern: '.$row['preisintern'].'<br>';
+                echo 'Preis intern: '.$row['preisextern'].'<br>';
+                echo 'Allergene: '.$row['allergen_codes'].'<br>'.'</p>';}
+            echo '</div>';
+        } else {
+            echo "Fehler beim Abrufen der Daten: ".mysqli_error($link);
+        }
         ?>
     </section>
 
@@ -73,6 +116,24 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
             <li>Anzahl der Gerichte: <span id="gerichte-anzahl"><?php echo $anzahl_gerichte; ?></span></li>
             <li>Anzahl der Besucher: <span id="besucher-anzahl"><?php echo $besucher; ?></span></li>
             <li>Anzahl der Newsletter-Anmeldungen: <span id="anmeldungen-anzahl"><?php echo $anzahl_anmeldungen; ?></span></li>
+        </ul>
+    </section>
+
+    <section id="allergene">
+        <h2>Allergene</h2>
+        <?php
+        $sql = "SELECT code, name FROM allergen";
+        $result = mysqli_query($link, $sql);
+        if ($result) {
+            echo '<ul>';
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo '<li>'.$row['code'].': '.$row['name'].'</li>';
+            }
+            echo '</ul>';
+        } else {
+            echo "Fehler beim Abrufen der Daten: " . mysqli_error($link);
+        }
+        ?>
         </ul>
     </section>
 </div>
@@ -150,5 +211,10 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
 <footer>
     <p>Impressum</p>
 </footer>
+
+<?php // Verbindung zur Datenbank schließen
+mysqli_close($link);
+?>
+
 </body>
 </html>

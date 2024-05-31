@@ -24,17 +24,17 @@ CREATE TABLE gericht (
         CHECK (preisintern <= preisextern)
 );
 
-CREATE TABLE allergen (
-    code    char(4)         PRIMARY KEY,
-    name    varchar(300)                        NOT NULL,
-    typ     varchar(20)     DEFAULT 'Allergen'  NOT NULL
-);
-
 CREATE TABLE kategorie (
     id          bigint            PRIMARY KEY,
     name        varchar(80)     NOT NULL,
     eltern_id   bigint,
     bildname    varchar(200)
+);
+
+CREATE TABLE allergen (
+    code    char(4)         PRIMARY KEY,
+    name    varchar(300)                        NOT NULL,
+    typ     varchar(20)     DEFAULT 'Allergen'  NOT NULL
 );
 
 CREATE TABLE gericht_hat_allergen (
