@@ -1,1 +1,3 @@
 Olaf;scholz@kanzler.de
+Robert;habeck@wirtschaft.de
+Annalena;baerbock@aussen.de

@@ -3,13 +3,13 @@
 - Robert, Hormann, 3668591
 - Josuel, Arz, 3307282
 -->
+
 <?php
-include 'newsletter_zaehlen.php';
 include 'db_connect.php';
-
-
+include 'newsletter_zaehlen.php';
 $anzahl_anmeldungen = zaehle_anmeldungen();
 ?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -183,11 +183,26 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
 
         if (empty($errors)) {
             $file = 'newsletter.txt';
-            $entry = $name . ';' . $email . PHP_EOL;
-            if (file_put_contents($file, $entry, FILE_APPEND | LOCK_EX) !== false) {
-                echo '<p class="success">Vielen Dank für Ihre Anmeldung!</p>';
+            $entry = $name . ';' . $email;
+            $anmeldungen = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            
+            $bereitsAngemeldet = false;
+            foreach ($anmeldungen as $anmeldung) {
+                if ($anmeldung === $entry) {
+                    $bereitsAngemeldet = true;
+                    break;
+                }
+            }
+
+            if ($bereitsAngemeldet) {
+                echo '<p class="error">Sie sind bereits angemeldet.</p>';
             } else {
-                echo '<p class="error">Es gab einen Fehler beim Speichern Ihrer Anmeldung. Bitte versuchen Sie es später erneut.</p>';
+                $entry .= PHP_EOL;
+                if (file_put_contents($file, $entry, FILE_APPEND | LOCK_EX) !== false) {
+                    echo '<p class="success">Vielen Dank für Ihre Anmeldung!</p>';
+                } else {
+                    echo '<p class="error">Es gab einen Fehler beim Speichern Ihrer Anmeldung. Bitte versuchen Sie es später erneut.</p>';
+                }
             }
         } else {
             foreach ($errors as $error) {
