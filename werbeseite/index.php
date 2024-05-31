@@ -4,12 +4,10 @@
 - Josuel, Arz, 3307282
 -->
 <?php
-include 'speisen.php';
 include 'newsletter_zaehlen.php';
 include 'db_connect.php';
 
 
-$anzahl_gerichte = count($speisen);
 $anzahl_anmeldungen = zaehle_anmeldungen();
 ?>
 <!DOCTYPE html>
@@ -75,42 +73,31 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
             echo 'Allergene: '.$row['allergen_codes'].'<br>'.'</p>';
         }
         echo '</div>';
+
+        $anzahl_gerichte = mysqli_num_rows($result); // Speichere die Anzahl der Gerichte
         mysqli_free_result($result);
         ?>
     </section>
     
     <?php
-    session_start();
-    
-    // Sicherstellen, dass ein Eintrag in der Tabelle "besucher" existiert
-    $sql = "SELECT count FROM besucher WHERE id = 1";
-    $result = mysqli_query($link, $sql);
-    if (!$result || mysqli_num_rows($result) == 0) {
-        // Falls kein Eintrag existiert, füge einen hinzu
-        $sql_insert = "INSERT INTO besucher (id, count) VALUES (1, 0)";
-        if (!mysqli_query($link, $sql_insert)) {
-            echo "Fehler beim Einfügen des initialen Eintrags: " . mysqli_error($link);
-        exit();
-        }
-    }
-    mysqli_free_result($result);
-
-    // Inkrementiere die Besucherzahl, wenn die Session-Variable nicht gesetzt ist
-    if (!isset($_SESSION['besucher'])) {
+    // Überprüfen, ob das Cookie gesetzt ist
+    if (!isset($_COOKIE['besucher'])) {
+        // Inkrementiere die Besucherzahl
         $sql = "UPDATE besucher SET count = count + 1 WHERE id = 1";
         $result = mysqli_query($link, $sql);
         if (!$result) {
-            echo "Fehler während der Abfrage: ", mysqli_error($link);
+            echo "Fehler während der Abfrage: " . mysqli_error($link);
             exit();
         }
-        $_SESSION['besucher'] = true; // Setze die Session-Variable
+        // Setze das Cookie für 24 Stunden
+        setcookie('besucher', 'true', time() + 86400);
     }
-    
+
     // Lade die aktuelle Besucherzahl aus der Datenbank
     $sql = "SELECT count FROM besucher WHERE id = 1";
     $result2 = mysqli_query($link, $sql);
     if (!$result2) {
-        echo "Fehler während der Abfrage: ", mysqli_error($link);
+        echo "Fehler während der Abfrage: " . mysqli_error($link);
         exit();
     }
     $row = mysqli_fetch_assoc($result2);
@@ -158,8 +145,7 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
                 <input type="email" id="email" name="email" required>
                 <label for="language">Newsletter bitte in:</label>
                 <select id="language" name="language" required>
-                    <option value="" disabled selected>Deutsch</option>
-                    <option value="deutsch">Deutsch</option>
+                    <option value="deutsch" selected>Deutsch</option>
                     <option value="englisch">Englisch</option>
                 </select>
             </div>
@@ -175,7 +161,7 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = trim($_POST['name']);
         $email = trim($_POST['email']);
-        $datenschutz = isset($_POST['privacy']) ? (int)$_POST['privacy'] : 0;
+        $datenschutz = isset($_POST['privacy']) ? $_POST['privacy']: '';
 
         $errors = [];
 
@@ -185,7 +171,7 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = 'Die E-Mail-Adresse ist ungültig.';
         }
-        if ($datenschutz !== 1) {
+        if ($datenschutz !== 'on') {
             $errors[] = 'Sie müssen der Datenschutzbestimmung zustimmen.';
         }
 
