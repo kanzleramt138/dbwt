@@ -65,6 +65,7 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
             echo "Fehler während der Abfrage: ", mysqli_error($link);
             exit();
             }
+        // Zeige die Gerichte in einer Liste an
         echo '<div class="speise">';
         while ($row = mysqli_fetch_assoc($result)) {
             echo '<h3>'.$row['name'].'</h3>'.'<br>';
@@ -117,12 +118,14 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     <section id="allergene">
         <h2>Allergene</h2>
         <?php
+        // Query, um die Allergene aus der Datenbank zu laden
         $sql = "SELECT code, name FROM allergen";
         $result = mysqli_query($link, $sql);
         if (!$result) {
             echo "Fehler während der Abfrage: ", mysqli_error($link);
             exit();
             }
+        // Zeige die Allergene in einer Liste an
         echo '<ul>';
         while ($row = mysqli_fetch_assoc($result)) {
             echo '<li>'.$row['code'].': '.$row['name'].'</li>';
@@ -158,46 +161,53 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     </form>
 
     <?php
+    // Überprüfe, ob das Formular abgeschickt wurde
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = trim($_POST['name']);
         $email = trim($_POST['email']);
+        // Überprüfe, ob die Datenschutzbestimmung akzeptiert wurde
         $datenschutz = isset($_POST['privacy']) ? $_POST['privacy']: '';
 
         $errors = [];
-
+        
+        // Überprüfe, ob der Name leer ist
         if (empty($name)) {
             $errors[] = 'Der Name darf nicht leer sein.';
         }
+        // Überprüfe, ob die E-Mail-Adresse gültig ist
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = 'Die E-Mail-Adresse ist ungültig.';
         }
+        // Überprüfe, ob die Datenschutzbestimmung akzeptiert wurde
         if ($datenschutz !== 'on') {
             $errors[] = 'Sie müssen der Datenschutzbestimmung zustimmen.';
         }
 
+        // Überprüfe, ob die E-Mail-Adresse von einem nicht erlaubten Anbieter stammt
         $blacklist = ['rcpt.at', 'damnthespam.at', 'wegwerfmail.de', 'trashmail.com'];
         $domain = substr(strrchr($email, "@"), 1);
         if (in_array($domain, $blacklist)) {
             $errors[] = 'Die E-Mail-Adresse stammt von einem nicht erlaubten Anbieter.';
         }
 
-        if (empty($errors)) {
-            $file = 'newsletter.txt';
+        if (empty($errors)) {               // Überprüfe, ob es Fehler gibt
+            $file = 'newsletter.txt';       // Speichere die Anmeldung in einer Textdatei
             $entry = $name . ';' . $email;
             $anmeldungen = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             
-            $bereitsAngemeldet = false;
+            $bereitsAngemeldet = false;     // Überprüfe, ob der Benutzer bereits angemeldet ist
             foreach ($anmeldungen as $anmeldung) {
                 if ($anmeldung === $entry) {
                     $bereitsAngemeldet = true;
-                    break;
+                    break;      
                 }
             }
 
-            if ($bereitsAngemeldet) {
+            if ($bereitsAngemeldet) {           
                 echo '<p class="error">Sie sind bereits angemeldet.</p>';
             } else {
                 $entry .= PHP_EOL;
+                // Speichere die Anmeldung in der Textdatei
                 if (file_put_contents($file, $entry, FILE_APPEND | LOCK_EX) !== false) {
                     echo '<p class="success">Vielen Dank für Ihre Anmeldung!</p>';
                 } else {
@@ -205,7 +215,8 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
                 }
             }
         } else {
-            foreach ($errors as $error) {
+            // Zeige die Fehlermeldungen an
+            foreach ($errors as $error) {       
                 echo '<p class="error">' . htmlspecialchars($error) . '</p>';
             }
         }
