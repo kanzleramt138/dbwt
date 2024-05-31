@@ -81,7 +81,7 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     
     <?php
     session_start();
-
+    // Inkrementiere die Besucherzahl, wenn die Session-Variable nicht gesetzt ist
     if (!isset($_SESSION['besucher'])) {
         $sql = "UPDATE besucher SET count = count + 1 WHERE id = 1";
         $result = mysqli_query($link, $sql);
@@ -89,10 +89,10 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
             echo "Fehler während der Abfrage: ", mysqli_error($link);
             exit();
         }
-        $_SESSION['besucher'] = true;
+        $_SESSION['besucher'] = true; // Setze die Session-Variable
     }
-    mysqli_free_result($result);
-
+    
+    // Lade die aktuelle Besucherzahl aus der Datenbank
     $sql = "SELECT count FROM besucher WHERE id = 1";
     $result2 = mysqli_query($link, $sql);
     if (!$result2) {
@@ -100,7 +100,7 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
         exit();
     }
     $row = mysqli_fetch_assoc($result2);
-    $current_visitor_count = $row['count'];
+    $current_visitor_count = $row['count']; // Speichere die aktuelle Besucherzahl
     mysqli_free_result($result2);
     ?>
 
