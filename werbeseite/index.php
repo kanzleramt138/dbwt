@@ -4,23 +4,11 @@
 - Josuel, Arz, 3307282
 -->
 <?php
-//include 'besucherzaehler.php';
 include 'speisen.php';
 include 'newsletter_zaehlen.php';
 include 'db_connect.php';
 
-function zaehle_besucher() {
-    $datei = 'besucherzaehler.txt';
-    if (!file_exists($datei)) {
-        file_put_contents($datei, '0');
-    }
-    $zaehler = (int)file_get_contents($datei);
-    $zaehler++;
-    file_put_contents($datei, (string)$zaehler);
-    return $zaehler;
-}
 
-$besucher = zaehle_besucher();
 $anzahl_gerichte = count($speisen);
 $anzahl_anmeldungen = zaehle_anmeldungen();
 ?>
@@ -31,14 +19,6 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
     <title>Werbeseite</title>
-    <!--
-    <style>
-        .speise img {
-            width: 150px;
-            height: auto;
-        }
-    </style>
-    -->
 </head>
 <body>
 <header>
@@ -61,19 +41,7 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     <section id="speisen">
         <h2>Unsere Speisen</h2>
         <?php
-        /*
-        echo '<div class="speise">';
-        foreach ($speisen as $speise) {
-            echo '<p>'.$speise.'</p>'.'<br>';
-            echo '<img src="img/'.$speise.'.jpg">';
-        }
-        echo '</div>';
-        */
-        ?>
-        <?php
         // Query, um die Gerichte aus der Datenbank zu laden und nach Name aufsteigend zu sortieren
-        //$query = "SELECT name, preisintern, preisextern FROM gericht ORDER BY name ASC LIMIT 5";
-
         $sql = "SELECT
             gericht.name, 
             gericht.preisintern, 
@@ -95,26 +63,52 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
         $result = mysqli_query($link, $sql); // Führe die Abfrage aus
 
         // Überprüfe, ob die Abfrage erfolgreich war
-        if ($result) {
-            // Iteriere über die Ergebnisse und zeige die Informationen auf der Werbeseite an
-            echo '<div class="speise">';
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo '<h3>'.$row['name'].'</h3>'.'<br>';
-                echo '<p>Preis intern: '.$row['preisintern'].'<br>';
-                echo 'Preis intern: '.$row['preisextern'].'<br>';
-                echo 'Allergene: '.$row['allergen_codes'].'<br>'.'</p>';}
-            echo '</div>';
-        } else {
-            echo "Fehler beim Abrufen der Daten: ".mysqli_error($link);
+        if (!$result) {
+            echo "Fehler während der Abfrage: ", mysqli_error($link);
+            exit();
+            }
+        echo '<div class="speise">';
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo '<h3>'.$row['name'].'</h3>'.'<br>';
+            echo '<p>Preis intern: '.$row['preisintern'].'<br>';
+            echo 'Preis intern: '.$row['preisextern'].'<br>';
+            echo 'Allergene: '.$row['allergen_codes'].'<br>'.'</p>';
         }
+        echo '</div>';
+        mysqli_free_result($result);
         ?>
     </section>
+    
+    <?php
+    session_start();
+
+    if (!isset($_SESSION['besucher'])) {
+        $sql = "UPDATE besucher SET count = count + 1 WHERE id = 1";
+        $result = mysqli_query($link, $sql);
+        if (!$result) {
+            echo "Fehler während der Abfrage: ", mysqli_error($link);
+            exit();
+        }
+        $_SESSION['besucher'] = true;
+    }
+    mysqli_free_result($result);
+
+    $sql = "SELECT count FROM besucher WHERE id = 1";
+    $result2 = mysqli_query($link, $sql);
+    if (!$result2) {
+        echo "Fehler während der Abfrage: ", mysqli_error($link);
+        exit();
+    }
+    $row = mysqli_fetch_assoc($result2);
+    $current_visitor_count = $row['count'];
+    mysqli_free_result($result2);
+    ?>
 
     <section id="zahlen">
         <h2>E-Mensa in Zahlen</h2>
         <ul>
             <li>Anzahl der Gerichte: <span id="gerichte-anzahl"><?php echo $anzahl_gerichte; ?></span></li>
-            <li>Anzahl der Besucher: <span id="besucher-anzahl"><?php echo $besucher; ?></span></li>
+            <li>Anzahl der Besucher: <span id="besucher-anzahl"><?php echo $current_visitor_count; ?></span></li>
             <li>Anzahl der Newsletter-Anmeldungen: <span id="anmeldungen-anzahl"><?php echo $anzahl_anmeldungen; ?></span></li>
         </ul>
     </section>
@@ -124,15 +118,16 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
         <?php
         $sql = "SELECT code, name FROM allergen";
         $result = mysqli_query($link, $sql);
-        if ($result) {
-            echo '<ul>';
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo '<li>'.$row['code'].': '.$row['name'].'</li>';
+        if (!$result) {
+            echo "Fehler während der Abfrage: ", mysqli_error($link);
+            exit();
             }
-            echo '</ul>';
-        } else {
-            echo "Fehler beim Abrufen der Daten: " . mysqli_error($link);
+        echo '<ul>';
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo '<li>'.$row['code'].': '.$row['name'].'</li>';
         }
+        echo '</ul>';
+        mysqli_free_result($result);
         ?>
         </ul>
     </section>

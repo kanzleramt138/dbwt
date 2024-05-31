@@ -25,7 +25,7 @@ CREATE TABLE gericht (
 );
 
 CREATE TABLE kategorie (
-    id          bigint            PRIMARY KEY,
+    id          bigint          PRIMARY KEY,
     name        varchar(80)     NOT NULL,
     eltern_id   bigint,
     bildname    varchar(200)
@@ -61,6 +61,18 @@ CREATE TABLE gericht_hat_kategorie (
         REFERENCES kategorie (id),
     CONSTRAINT unique_gericht_kategorie
         UNIQUE (gericht_id, kategorie_id)
+);
+
+CREATE TABLE newsletter (
+    email       varchar(200) PRIMARY KEY,
+    first_name  varchar(80)  NOT NULL,
+    last_name   varchar(80)  NOT NULL,
+    lang        varchar(100) NOT NULL
+);
+
+CREATE TABLE besucher (
+    id      int PRIMARY KEY,
+    count   int NOT NULL
 );
 
 
