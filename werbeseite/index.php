@@ -81,6 +81,20 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     
     <?php
     session_start();
+    
+    // Sicherstellen, dass ein Eintrag in der Tabelle "besucher" existiert
+    $sql = "SELECT count FROM besucher WHERE id = 1";
+    $result = mysqli_query($link, $sql);
+    if (!$result || mysqli_num_rows($result) == 0) {
+        // Falls kein Eintrag existiert, füge einen hinzu
+        $sql_insert = "INSERT INTO besucher (id, count) VALUES (1, 0)";
+        if (!mysqli_query($link, $sql_insert)) {
+            echo "Fehler beim Einfügen des initialen Eintrags: " . mysqli_error($link);
+        exit();
+        }
+    }
+    mysqli_free_result($result);
+
     // Inkrementiere die Besucherzahl, wenn die Session-Variable nicht gesetzt ist
     if (!isset($_SESSION['besucher'])) {
         $sql = "UPDATE besucher SET count = count + 1 WHERE id = 1";
