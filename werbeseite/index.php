@@ -81,6 +81,7 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     </section>
     
     <?php
+    // Besucherzähler
     // Überprüfen, ob das Cookie gesetzt ist
     if (!isset($_COOKIE['besucher'])) {
         // Inkrementiere die Besucherzahl

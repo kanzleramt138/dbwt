@@ -31,6 +31,11 @@ CREATE TABLE kategorie (
     bildname    varchar(200)
 );
 
+ALTER TABLE kategorie
+	ADD CONSTRAINT fk_eltern_id
+		FOREIGN KEY (eltern_id)
+		REFERENCES kategorie(id);
+
 CREATE TABLE allergen (
     code    char(4)         PRIMARY KEY,
     name    varchar(300)                        NOT NULL,

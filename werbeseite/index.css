@@ -59,7 +59,13 @@ section ul {
 }
 
 #zahlen {
+    height: 50px;
     margin-top: 0;
+}
+
+#allergene {
+    margin: 0 0 0 0;
+    height: 50px;
 }
 
 footer p {
