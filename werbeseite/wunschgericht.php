@@ -16,7 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ersteller_email = $_POST['ersteller_email'];
 
     // Überprüfen, ob der Ersteller bereits existiert
-    $result = mysqli_query($conn, "SELECT id FROM ersteller WHERE email='$ersteller_email'");
+    $sql = "SELECT id FROM ersteller WHERE email='$ersteller_email'";
+    $result = mysqli_query($link, $sql);
     if (mysqli_num_rows($result) > 0) {
         // Wenn der Ersteller existiert, seine ID erhalten
         $row = mysqli_fetch_assoc($result);
@@ -24,10 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         // Wenn der Ersteller nicht existiert, ihn hinzufügen
         $sql = "INSERT INTO ersteller (name, email) VALUES ('$ersteller_name', '$ersteller_email')";
-        if (mysqli_query($conn, $sql)) {
-            $ersteller_id = mysqli_insert_id($conn);
+        if (mysqli_query($link, $sql)) {
+            $ersteller_id = mysqli_insert_id($link);
         } else {
-            echo "Fehler beim Hinzufügen des Erstellers: " . mysqli_error($conn);
+            echo "Fehler beim Hinzufügen des Erstellers: " . mysqli_error($link);
             exit;
         }
     }
@@ -36,13 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "INSERT INTO wunschgericht (name, beschreibung, erstellt_am, ersteller_id) 
             VALUES ('$name', '$beschreibung', '$erstellt_am', '$ersteller_id')";
 
-    if (mysqli_query($conn, $sql)) {
+    if (mysqli_query($link, $sql)) {
         echo "Neues Wunschgericht erfolgreich hinzugefügt!";
     } else {
-        echo "Fehler: " . $sql . "<br>" . mysqli_error($conn);
+        echo "Fehler: " . $sql . "<br>" . mysqli_error($link);
     }
 
-    mysqli_close($conn);
+    mysqli_close($link);
 }
 ?>
 

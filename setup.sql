@@ -78,7 +78,7 @@ CREATE TABLE besucher (
     count   int NOT NULL
 );
 INSERT INTO besucher (id, count)
-VALUES (1, 0)
+VALUES (1, 1)
 ON DUPLICATE KEY UPDATE count = count;
 
 CREATE TABLE ersteller (
@@ -211,4 +211,18 @@ SELECT COUNT(*) FROM gericht_hat_allergen;
 SELECT "31" AS "COUNT gericht_hat_allergen";
 SELECT COUNT(*) FROM gericht_hat_kategorie;
 SELECT "13" AS "COUNT gericht_hat_kategorie";
+*/
+
+
+/*
+SELECT *
+FROM wunschgericht
+ORDER BY erstellt_am DESC
+LIMIT 5;
+*/
+
+/*
+SELECT ersteller_id, COUNT(*) AS anzahl_wuensche
+FROM wunschgericht
+GROUP BY ersteller_id;
 */
