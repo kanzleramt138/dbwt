@@ -10,7 +10,7 @@ USE emensawerbeseite;
 
 -- Erstellt die Tabellen
 CREATE TABLE gericht (
-    id              bigint              PRIMARY KEY,
+    id              bigint              PRIMARY KEY	AUTO_INCREMENT,
     name            varchar(80)         NOT NULL    UNIQUE,
     beschreibung    varchar(800)        NOT NULL,
     erfasst_am      date                NOT NULL,
@@ -28,13 +28,11 @@ CREATE TABLE kategorie (
     id          bigint          PRIMARY KEY,
     name        varchar(80)     NOT NULL,
     eltern_id   bigint,
-    bildname    varchar(200)
-);
-
-ALTER TABLE kategorie
-	ADD CONSTRAINT fk_eltern_id
+    bildname    varchar(200),
+	CONSTRAINT fk_eltern_id
 		FOREIGN KEY (eltern_id)
-		REFERENCES kategorie(id);
+		REFERENCES kategorie(id)
+);
 
 CREATE TABLE allergen (
     code    char(4)         PRIMARY KEY,
@@ -79,6 +77,40 @@ CREATE TABLE besucher (
     id      int PRIMARY KEY,
     count   int NOT NULL
 );
+
+CREATE TABLE ersteller (
+    id          bigint          PRIMARY KEY AUTO_INCREMENT,
+    name        varchar(80)     NOT NULL DEFAULT 'anonym',
+    email       varchar(200)    NOT NULL UNIQUE
+);
+
+CREATE TABLE wunschgericht (
+    id              bigint          PRIMARY KEY AUTO_INCREMENT,
+    name            varchar(80)     NOT NULL,
+    beschreibung    varchar(800)    NOT NULL,
+    erstellt_am     date            NOT NULL,
+    ersteller_id    bigint,
+    CONSTRAINT fk_ersteller_id
+		FOREIGN KEY (ersteller_id)
+        REFERENCES ersteller(id)
+);
+
+"""
++------------------+           +------------------+
+|    Ersteller     |           |   Wunschgericht  |
++------------------+           +------------------+
+| ErstellerID (PK) |1        N |  Nummer (PK)     |
+| Name             |-----------|  Name            |
+| E-Mail           |           |  Beschreibung    |
++------------------+           |  Erstellungsdatum|
+                               |  ErstellerID (FK)|
+                               +------------------+
+           ___________
+Ersteller (ErstellerID, Name, E-Mail)
+               ______                                        _ _ _ _ _ _
+Wunschgericht (Nummer, Name, Beschreibung, Erstellungsdatum, ErstellerID)
+"""
+
 
 
 -- Füllt die Tabellen

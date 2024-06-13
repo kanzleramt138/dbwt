@@ -138,6 +138,11 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
     </section>
 </div>
 
+<section id="wunschgericht">
+    <h2>Wunschgericht einreichen</h2>
+    <p><a href="wunschgericht.php">Wunschgericht erfassen</a></p>
+</section>
+
 <section id="kontakt">
     <h2>Interesse geweckt? Wir informieren Sie!</h2>
     <form id="newsletterForm" method="post" action="index.php">
