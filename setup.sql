@@ -77,6 +77,9 @@ CREATE TABLE besucher (
     id      int PRIMARY KEY,
     count   int NOT NULL
 );
+INSERT INTO besucher (id, count)
+VALUES (1, 0)
+ON DUPLICATE KEY UPDATE count = count;
 
 CREATE TABLE ersteller (
     id          bigint          PRIMARY KEY AUTO_INCREMENT,
@@ -95,7 +98,7 @@ CREATE TABLE wunschgericht (
         REFERENCES ersteller(id)
 );
 
-"""
+/*
 +------------------+           +------------------+
 |    Ersteller     |           |   Wunschgericht  |
 +------------------+           +------------------+
@@ -109,7 +112,7 @@ CREATE TABLE wunschgericht (
 Ersteller (ErstellerID, Name, E-Mail)
                ______                                        _ _ _ _ _ _
 Wunschgericht (Nummer, Name, Beschreibung, Erstellungsdatum, ErstellerID)
-"""
+*/
 
 
 

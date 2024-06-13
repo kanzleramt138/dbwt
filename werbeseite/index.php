@@ -102,8 +102,13 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
         echo "Fehler während der Abfrage: " . mysqli_error($link);
         exit();
     }
+    
     $row = mysqli_fetch_assoc($result2);
-    $current_visitor_count = $row['count']; // Speichere die aktuelle Besucherzahl
+    if ($row) {
+        $current_visitor_count = $row['count']; // Speichere die aktuelle Besucherzahl
+    } else {
+        $current_visitor_count = 0; // Standardwert, falls kein Eintrag gefunden wird
+    }
     mysqli_free_result($result2);
     ?>
 
