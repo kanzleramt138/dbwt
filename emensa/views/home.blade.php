@@ -14,11 +14,6 @@
 @endsection
 
 @section("cssextra")
-    <style>
-        body > div {
-            background-color: {{$rd->query['bgcolor'] ?? 'ffffff'}}
-        }
-    </style>
 @endsection
 
 @section("jsextra")

@@ -8,19 +8,9 @@
  </section>
 
 
- <nav class="mt-5">
- <strong>Navigation</strong>
- <ul>
- <li><a href="/demo">Demo</a></li>
- <li><a href="/dbconnect">Datenbank: Gerichte</a></li>
- </ul>
- <ul>
- <li><a href="/debug"><code class="language-php">phpinfo();</code></a></li>
- </ul>
- </nav>
- <footer>
- &copy; Team-Name DBWT
- </footer>
+ <div class="box">
+ <section id="speisen">
+ <h2>Unsere Speisen</h2>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection("cssextra"); ?>
