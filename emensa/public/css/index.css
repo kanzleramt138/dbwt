@@ -50,12 +50,25 @@ section ul {
     border-radius: 0.3em;
 }
 
-.box {
+/*.box {
     display: flex;
 }
+*/
 
 #speisen {
     margin: 0 20% 0 0;
+}
+
+#speisen table {
+    margin: 0 120px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#speisen th, #speisen td {
+    border: 3px solid rgba(0, 109, 119, 1);
+    color: rgba(0, 109, 119, 1);
+    padding: 5px;
 }
 
 #zahlen {

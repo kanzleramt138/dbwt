@@ -11,6 +11,20 @@
         <div class="box">
             <section id="speisen">
                 <h2>Unsere Speisen</h2>
+                <table>
+                    <tr>
+                        <td>Gericht</td>
+                        <td>Preis intern</td>
+                        <td>Preis extern</td>
+                    </tr>
+                    @foreach($gerichte as $gericht)
+                        <tr>
+                            <td>{{ $gericht['name'] }}</td>
+                            <td>{{ $gericht['preisintern'] }}</td>
+                            <td>{{ $gericht['preisextern'] }}</td>
+                        </tr>
+                    @endforeach
+                </table>
 @endsection
 
 @section("cssextra")
