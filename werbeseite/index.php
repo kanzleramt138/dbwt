@@ -241,6 +241,8 @@ $anzahl_anmeldungen = zaehle_anmeldungen();
 </section>
 
 <footer>
+    <p>(c) E-Mensa GmbH</p>
+    <p>Josuel Arz, Robert Hormann</p>
     <p>Impressum</p>
 </footer>
 
