@@ -1,3 +1,6 @@
+-- Löscht die bestehende Datenbank, wenn sie existiert
+DROP DATABASE IF EXISTS emensawerbeseite;
+
 -- Erstellt die Datenbank, wenn sie noch nicht existiert
 CREATE DATABASE IF NOT EXISTS emensawerbeseite
     CHARACTER SET utf8mb4
@@ -45,10 +48,12 @@ CREATE TABLE gericht_hat_allergen (
     gericht_id  bigint    NOT NULL,
     CONSTRAINT fk_code_allergen
         FOREIGN KEY (code)
-        REFERENCES allergen(code),
+        REFERENCES allergen(code)
+		ON UPDATE CASCADE,
     CONSTRAINT fk_gericht_allergen
         FOREIGN KEY (gericht_id)
-        REFERENCES gericht(id),
+        REFERENCES gericht(id)
+		ON DELETE CASCADE,
     CONSTRAINT unique_code_gericht
         UNIQUE (code, gericht_id)
 );
@@ -58,7 +63,8 @@ CREATE TABLE gericht_hat_kategorie (
     kategorie_id    bigint    NOT NULL,
     CONSTRAINT fk_gericht_kategorie
         FOREIGN KEY (gericht_id)
-        REFERENCES gericht (id),
+        REFERENCES gericht (id)
+		ON DELETE CASCADE,
     CONSTRAINT fk_kategorie
         FOREIGN KEY (kategorie_id)
         REFERENCES kategorie (id),

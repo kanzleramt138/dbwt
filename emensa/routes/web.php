@@ -14,19 +14,17 @@ return array(
     '/error'        => 'DemoController@error',
     '/requestdata'  => 'DemoController@requestdata',
 
+    '/anmeldung' => "AuthController@index",
+    '/anmeldung_verifizieren' => "AuthController@anmeldung_verifizieren",
+    '/abmeldung' => "AuthController@logout",
+
     // Erstes Beispiel:
     '/m4_6a_queryparameter' => 'ExampleController@m4_6a_queryparameter',
     '/m4' => 'ExampleController@m4_6a_queryparameter',
-
-    // Neue Route für /m4_7a_queryparameter
     '/m4_7a_queryparameter' => 'ExampleController@m4_7a_queryParameter',
-
-    // Neue Route für /m4_7b_kategorie
     '/m4_7b_kategorie' => 'ExampleController@m4_7b_kategorie',
-
-    // Neue Route für /m4_7c_gerichte
     '/m4_7c_gerichte' => 'ExampleController@m4_7c_gerichte',
-
-    // Neue Route für /m4_7d_layout
     '/m4_7d_layout' => 'ExampleController@m4_7d_layout',
+
+
 );

@@ -1,4 +1,5 @@
 <?php
+session_start();
 const VERBOSITY = 0;
 const PUBLIC_DIRNAME = "public";
 const CONFIG_WEBROUTES = "/../routes/web.php"; // like in laravel
