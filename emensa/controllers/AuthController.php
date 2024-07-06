@@ -21,13 +21,14 @@ class AuthController
 
         try {
             // Überprüfen, ob der Benutzer existiert
-            if (!check_benutzer($email)) {
+            if (!check_benutzer($link, $email)) {
                 $_SESSION['error'] = 'Benutzer existiert nicht';
+                $link->rollback();
                 return view('anmeldung', ['rd' => $rd]);
             }
 
             // Passwort und Name des Benutzers abrufen
-            $user = get_password($email);
+            $user = get_password($link, $email);
 
             if ($hashed_passwort === $user['passwort']) {
                 // Anmeldung erfolgreich, Session setzen
