@@ -19,7 +19,7 @@
                 <li><a href="#zahlen">Zahlen</a></li>
                 <li><a href="#kontakt">Kontakt</a></li>
                 <li><a href="#wichtig">Wichtig für uns</a></li>
-                @if (!isset($_SESSION["email"]))
+                @if (isset($_SESSION["email"]))
                     <li><p>Angemeldet als {{$user}}</p></li>
                     <li><a href="/abmeldung">Abmelden</a></li>
                 @else

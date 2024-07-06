@@ -9,7 +9,13 @@ class AuthController
 
     public function anmeldung_verifizieren(RequestData $rd) {
         $data = $rd -> getData();
-        dd($data);
+        $email = $data['email'] ?? null;
+        $passwort = $data['password'] ?? null;
+        $hashed_passwort = sha1('abcd'.$passwort);
+
+
+
+
 
     }
 
