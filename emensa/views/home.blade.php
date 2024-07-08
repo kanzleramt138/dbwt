@@ -21,7 +21,7 @@
                     <tr>
                         <td>{{ $gericht['name'] }}</td>
                         <td>
-                            <img src="/images/{{ $gericht['bildname'] ?? '00_image_missing' }}.jpg"
+                            <img src="/img/gerichte/{{ $gericht['bildname'] ?? '00_image_missing' }}.jpg"
                                  alt="{{ $gericht['name'] }}"
                                  width="100" height="100">
                         </td>

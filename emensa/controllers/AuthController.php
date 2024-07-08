@@ -3,6 +3,12 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/../models/benutzer.php');
 
 class AuthController
 {
+    public function index(RequestData $rd) {
+        $log = logger();
+        $log->info('Access to the main page', ['request' => $rd]);
+        return view('anmeldung', ['rd' => $rd]);
+    }
+
     public function anmeldung_verifizieren(RequestData $rd) {
         $log = logger();
         $data = $rd->getData();
@@ -65,4 +71,13 @@ class AuthController
 
         return view('anmeldung', ['rd' => $rd]);
     }
+
+    public function logout(RequestData $rd) {
+        $log = logger();
+        $log->info('User logged out', ['email' => $_SESSION['email']]);
+        session_destroy();
+        header("Location: /");
+        exit();
+    }
 }
+
