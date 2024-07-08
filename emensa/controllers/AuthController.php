@@ -4,10 +4,13 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/../models/benutzer.php');
 class AuthController
 {
     public function index(RequestData $rd) {
+        $log = logger();
+        $log->info('Access to the main page', ['request' => $rd]);
         return view('anmeldung', ['rd' => $rd]);
     }
 
     public function anmeldung_verifizieren(RequestData $rd) {
+        $log = logger();
         $data = $rd->getData();
         $email = $data['email'];
         $passwort = $data['password'];
@@ -24,6 +27,7 @@ class AuthController
             if (!check_benutzer($link, $email)) {
                 $_SESSION['error'] = 'Benutzer existiert nicht';
                 $link->rollback();
+                $log->warning('Failed login attempt: User does not exist', ['email' => $email]);
                 return view('anmeldung', ['rd' => $rd]);
             }
 
@@ -41,6 +45,7 @@ class AuthController
                 // Transaktion abschließen
                 $link->commit();
 
+                $log->info('Successful login', ['email' => $email]);
                 header("Location: /");
                 exit();
             } else {
@@ -48,6 +53,7 @@ class AuthController
                 fail_anmeldung($link, $email);
 
                 $_SESSION['error'] = 'Passwort oder E-Mail falsch';
+                $log->warning('Failed login attempt: Incorrect password', ['email' => $email]);
             }
 
             // Transaktion abschließen
@@ -56,6 +62,7 @@ class AuthController
             // Bei einem Fehler die Transaktion zurücksetzen
             $link->rollback();
             $_SESSION['error'] = 'Ein Fehler ist aufgetreten: ' . $e->getMessage();
+            $log->error('Error during login attempt', ['email' => $email, 'error' => $e->getMessage()]);
             return view('anmeldung', ['rd' => $rd]);
         } finally {
             $link->close();
@@ -65,14 +72,10 @@ class AuthController
     }
 
     public function logout(RequestData $rd) {
+        $log = logger();
+        $log->info('User logged out', ['email' => $_SESSION['email']]);
         session_destroy();
         header("Location: /");
         exit();
     }
 }
-
-
-
-
-
-?>

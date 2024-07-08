@@ -29,6 +29,8 @@ try {
 }
 
 use eftec\bladeone\BladeOne;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 /* Routing Script for PHP Dev Server */
 $verbosity = VERBOSITY;
@@ -42,6 +44,17 @@ if (preg_match('/\.(?:css|js|png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
     }
     FrontController::handleRequest("$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", $_SERVER['REQUEST_METHOD'], VERBOSITY);
 }
+
+function logger(): Logger
+{
+    $logger = new Logger('e-mensa');
+    $logger->pushHandler(new StreamHandler(__DIR__ . '/../storage/logs/emensa.log'));
+    return $logger;
+}
+
+// Lognachricht beim Aufruf der Hauptseite schreiben
+$log = logger();
+$log->info('E-Mensa application has started.');
 
 class RequestData
 {

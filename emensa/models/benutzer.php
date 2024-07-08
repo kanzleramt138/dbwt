@@ -1,6 +1,6 @@
 <?php
 
-function check_benutzer($link, $email)
+function check_benutzer($link, $email): bool
 {
     $stmt = $link->prepare("SELECT email FROM benutzer WHERE email = ?");
     $stmt-> bind_param('s', $email);
@@ -47,10 +47,9 @@ function success_anmeldung($link, $email)
     $stmt->close();
 }
 
-function fail_anmeldung($email)
+function fail_anmeldung($link, $email)
 {
-    if (check_benutzer($email)) {
-        $link = connectdb();
+    if (check_benutzer($link, $email)) {
         $stmt = 'UPDATE benutzer SET letzterfehler = NOW() WHERE email = ?';
         $stmt = $link->prepare($stmt);
         if ($stmt === false) {
