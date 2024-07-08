@@ -14,6 +14,7 @@ return array(
     '/error'        => 'DemoController@error',
     '/requestdata'  => 'DemoController@requestdata',
 
+    '/ankuendigungen' => 'HomeController@ankuendigungen',
     '/anmeldung' => "AuthController@index",
     '/anmeldung_verifizieren' => "AuthController@anmeldung_verifizieren",
     '/abmeldung' => "AuthController@logout",

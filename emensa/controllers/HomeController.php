@@ -9,7 +9,11 @@ class HomeController
         $gerichte = db_gericht_select_all();
         return view('home', ['gerichte' => $gerichte ]);
     }
-    
+
+    public function ankuendigungen(RequestData $request) {
+        $gerichte = db_gericht_select_all();
+        return view('home', ['gerichte' => $gerichte ]);
+    }
     public function debug(RequestData $request) {
         return view('debug');
     }

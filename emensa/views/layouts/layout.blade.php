@@ -14,7 +14,7 @@
     <header>
         <nav id="navigation">
             <ul>
-                <li><a href="#ankündigungen">Ankündigungen</a></li>
+                <li><a href="/ankuendigungen">Ankündigungen</a></li>
                 <li><a href="#speisen">Speisen</a></li>
                 <li><a href="#zahlen">Zahlen</a></li>
                 <li><a href="#kontakt">Kontakt</a></li>

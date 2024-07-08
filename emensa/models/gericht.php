@@ -6,7 +6,7 @@ function db_gericht_select_all() {
     try {
         $link = connectdb();
 
-        $sql = 'SELECT id, name, beschreibung, preisintern, preisextern FROM gericht ORDER BY name';
+        $sql = 'SELECT id, name, beschreibung, preisintern, preisextern, bildname FROM gericht ORDER BY name';
         $result = mysqli_query($link, $sql);
 
         $data = mysqli_fetch_all($result, MYSQLI_BOTH);

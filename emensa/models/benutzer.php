@@ -32,17 +32,28 @@ function get_password($link, $email)
     return $user;
 }
 
-function success_anmeldung($link, $email)
+function get_benutzer_id($link, $email)
 {
-    $stmt = 'UPDATE benutzer
-             SET anzahlanmeldungen = anzahlanmeldungen + 1,
-                letzteanmeldung = NOW()
-             WHERE email = ?';
-    $stmt = $link->prepare($stmt);
+    $stmt = $link->prepare("SELECT id FROM benutzer WHERE email = ?");
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $user = $result->fetch_assoc();
+    $benutzer_id = $user['id'];
+
+    $stmt->close();
+
+    return $benutzer_id;
+}
+
+function success_anmeldung($link, $benutzer_id)
+{
+    $stmt = $link->prepare("CALL inkrementiere_anmeldungen(?)");
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($link->error));
     }
-    $stmt->bind_param('s', $email);
+    $stmt->bind_param('i', $benutzer_id);
     $stmt->execute();
     $stmt->close();
 }
@@ -50,8 +61,7 @@ function success_anmeldung($link, $email)
 function fail_anmeldung($link, $email)
 {
     if (check_benutzer($link, $email)) {
-        $stmt = 'UPDATE benutzer SET letzterfehler = NOW() WHERE email = ?';
-        $stmt = $link->prepare($stmt);
+        $stmt = $link->prepare("UPDATE benutzer SET letzterfehler = NOW() WHERE email = ?");
         if ($stmt === false) {
             die('Prepare failed: ' . htmlspecialchars($link->error));
         }
