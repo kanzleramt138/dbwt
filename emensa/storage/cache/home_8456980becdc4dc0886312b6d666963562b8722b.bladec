@@ -1,7 +1,6 @@
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection("content"); ?>
- <body>
  <section id="ankündigungen">
  <h1>Willkommen bei der E-Mensa</h1>
  <p>Hier steht ein Text über die E-Mensa...</p>
@@ -33,7 +32,6 @@
  </table>
  </section>
  </div>
- </body>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection("cssextra"); ?>

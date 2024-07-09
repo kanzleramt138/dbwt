@@ -1,7 +1,6 @@
 @extends("layouts.layout")
 
 @section("content")
-    <body>
     <section id="ankündigungen">
         <h1>Willkommen bei der E-Mensa</h1>
         <p>Hier steht ein Text über die E-Mensa...</p>
@@ -32,7 +31,6 @@
             </table>
         </section>
     </div>
-    </body>
 @endsection
 
 @section("cssextra")
