@@ -28,6 +28,11 @@ body {
     font-size: 1.3em;
 }
 
+#navigation p {
+    color: rgba(0, 109, 119, 1);
+    font-size: 1.3em;
+}
+
 h1, h2, h3 {
     color: rgba(0, 109, 119, 1);
 }

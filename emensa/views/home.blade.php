@@ -25,7 +25,7 @@
                                  alt="{{ $gericht['name'] }}"
                                  width="100" height="100">
                         </td>
-                        <td>{{ $gericht['preisintern'] }}</td>
+                        <td>{{ $gericht['preisintern'].'€' }}</td>
                         <td>{{ $gericht['preisextern'] }}</td>
                     </tr>
                 @endforeach
